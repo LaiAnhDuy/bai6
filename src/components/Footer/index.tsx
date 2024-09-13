@@ -13,11 +13,11 @@ const Footer = () => {
   });
   return (
     <>
-      <div className="max-w-[1240px] mx-auto bg-black grid grid-cols-5 py-10 px-20 relative top-24 rounded-[20px]">
-        <p className="font-bold text-5xl leading-snug text-white col-span-3">
-          STAY UPTO DATE ABOUT <br /> OUR LATEST OFFERS
+      <div className="max-w-[90vw] md:max-w-[85vw] mx-auto bg-black md:grid md:grid-cols-5 md:gap-x-10 py-10 px-5 md:py-10 md:px-20 relative top-24 rounded-[20px]">
+        <p className="font-bold text-3xl md:text-5xl text-white col-span-3">
+          STAY UPTO DATE ABOUT OUR LATEST OFFERS
         </p>
-        <div className="col-span-2">
+        <div className="col-span-2 mt-10 md:mt-0">
           <Formik
             initialValues={{
               email: "",
@@ -63,10 +63,11 @@ const Footer = () => {
           </Formik>
         </div>
       </div>
-      <div className="bg-[#F0F0F0] pb-10 pt-32">
-        <div className="max-w-[1240px] mx-auto grid grid-cols-11 gap-x-10">
+
+      <div className="bg-[#F0F0F0] p-5 md:p-0 md:pt-36 pt-32">
+        <div className="max-w-[90vw] md:max-w-[85vw] mx-auto md:grid md:grid-cols-11 gap-x-10">
           <div className="col-span-3">
-            <p className="font-bold text-4xl">SHOP.CO</p>
+            <p className="font-bold text-3xl">SHOP.CO</p>
             <p className="mt-2 text-[14px]">
               We have clothes that suits your style and <br /> which you’re
               proud to wear. <br /> From women to men.
@@ -78,7 +79,7 @@ const Footer = () => {
               <img src={IMAGE_PATH.LOGO_GITHUB} />
             </div>
           </div>
-          <div className="col-span-8 flex justify-between gap-x-10 text-base">
+          <div className="col-span-8 grid grid-cols-2 md:grid-cols-4 gap-10 text-base mt-5 md:mt-0">
             {listItem.map((item, index) => (
               <div key={index}>
                 <h2 className="font-medium">{item.title}</h2>
@@ -91,16 +92,16 @@ const Footer = () => {
             ))}
           </div>
           <hr className="mt-10 col-span-11 h-[1px] bg-[#0000001A]" />
-          <div className="mt-5 col-span-11 flex justify-between ">
-            <p className="text-[14px] font-[400]">
+          <div className="mt-5 col-span-11 md:flex md:justify-between">
+            <p className="text-[14px] font-[400] text-center">
               Shop.co © 2000-2023, All Rights Reserved
             </p>
-            <div className="flex">
-              <img src={IMAGE_PATH.VISA} />
-              <img src={IMAGE_PATH.MASTERCARD} />
-              <img src={IMAGE_PATH.PAYPAL} />
-              <img src={IMAGE_PATH.PAY} />
-              <img src={IMAGE_PATH.GPAY} />
+            <div className="flex justify-center mt-3 md:mt-0">
+              <img src={IMAGE_PATH.VISA} className="w-10 md:w-auto"/>
+              <img src={IMAGE_PATH.MASTERCARD} className="w-10 md:w-auto"/>
+              <img src={IMAGE_PATH.PAYPAL} className="w-10 md:w-auto"/>
+              <img src={IMAGE_PATH.PAY} className="w-10 md:w-auto"/>
+              <img src={IMAGE_PATH.GPAY} className="w-10 md:w-auto"/>
             </div>
           </div>
         </div>

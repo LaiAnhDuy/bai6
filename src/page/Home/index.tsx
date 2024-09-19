@@ -7,6 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 import ROUTE from "../../constants/route";
+import { IconButton } from "@mui/material";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const HomePage = () => {
   return (
     <>
       <div className="bg-[#F2F0F1]">
-        <div className="max-w-[90vw] md:max-w-[85vw] mx-auto md:flex justify-between gap-x-20 pt-14">
+        <div className="max-w-[90vw] md:max-w-[85vw] mx-auto md:flex justify-between items-end xl:gap-x-20 pt-14">
           <div>
             <p className="text-4xl md:text-6xl font-bold">
               FIND CLOTHES <br /> THAT MATCHES <br /> YOUR STYLE
@@ -81,20 +82,20 @@ const HomePage = () => {
             >
               Shop Now
             </button>
-            <div className="flex flex-wrap justify-center gap-x-10 md:justify-between mt-12">
+            <div className="flex flex-wrap justify-center gap-x-10 md:justify-around mt-12 mb-5">
               <img
                 src={IMAGE_PATH.INTERNATIONAL_BRANDS}
-                className="w-28 md:w-auto"
+                className="w-28 lg:w-32"
               />
               <div className="w-[1px] bg-[#0000001A]"></div>
               <img
                 src={IMAGE_PATH.HIGH_QUALITY_PRODUCTS}
-                className="w-28 md:w-auto"
+                className="w-28 lg:w-32"
               />
-              <div className="w-[1px] bg-[#0000001A] hidden md:block"></div>
+              <div className="w-[1px] bg-[#0000001A] hidden sm:block md:hidden lg:block"></div>
               <img
                 src={IMAGE_PATH.HAPPY_CUSTOMERS}
-                className="mt-5 md:mt-0 w-28 md:w-auto"
+                className="mt-5 md:mt-0 w-28 lg:w-32"
               />
             </div>
           </div>
@@ -104,7 +105,7 @@ const HomePage = () => {
       </div>
 
       <div className="bg-black">
-        <div className="max-w-[90vw] md:max-w-[85vw] mx-auto grid grid-cols-6 md:flex md:justify-between gap-5 py-5 md:py-14">
+        <div className="max-w-[90vw] md:max-w-[85vw] mx-auto grid grid-cols-6 md:flex md:flex-wrap md:justify-around gap-5 py-5 md:py-14">
           <img
             src={IMAGE_PATH.VERSACE}
             className="w-full md:w-auto h-5 md:h-10 col-span-2"
@@ -134,16 +135,23 @@ const HomePage = () => {
         <p className="text-center text-3xl md:text-5xl font-bold">
           NEW ARRIVALS
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-10 overflow-hidden">
           {fakeProducts.slice(0, visibleNewArrivals).map((product, index) => (
-            <Frame key={index} {...product} />
+            <div
+              key={index}
+              onClick={() => {
+                navigate("/product-detail");
+              }}
+            >
+              <Frame {...product} />
+            </div>
           ))}
         </div>
         {visibleNewArrivals < fakeProducts.length && (
           <div className="mt-10 flex justify-center text-center col-span-4">
             <button
               onClick={handleViewAll}
-              className="py-4 px-14 w-full md:w-max rounded-[62px] border border-[#0000001A]"
+              className="py-4 px-14 w-full md:w-max rounded-[62px] border"
             >
               View all
             </button>
@@ -156,16 +164,23 @@ const HomePage = () => {
         <p className="text-center text-3xl md:text-5xl font-bold">
           TOP SELLING
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-10 overflow-hidden">
           {fakeProducts.slice(0, visibleTopSelling).map((product, index) => (
-            <Frame key={index} {...product} />
+            <div
+              key={index}
+              onClick={() => {
+                navigate("/product-detail");
+              }}
+            >
+              <Frame {...product} />
+            </div>
           ))}
         </div>
         {visibleTopSelling < fakeProducts.length && (
           <div className="mt-10 flex justify-center text-center col-span-4">
             <button
               onClick={handleViewAllTopSelling}
-              className="py-4 px-14 w-full md:w-max rounded-[62px] border border-[#0000001A]"
+              className="py-4 px-14 w-full md:w-max rounded-[62px] border"
             >
               View all
             </button>
@@ -200,34 +215,28 @@ const HomePage = () => {
         <div className="max-w-[90vw] md:max-w-[85vw] mx-auto mt-20 flex justify-between items-center">
           <p className="font-bold text-3xl md:text-5xl">OUR HAPPY CUSTOMERS</p>
           <div className="flex items-end">
-            <ArrowBackIcon
-              className="mr-3 cursor-pointer"
+            <IconButton
+              className="mr-3"
               onClick={() => {
-                if (window.innerWidth <= 768 && containerRef.current) {
-                  setCurrentIndex((val) =>
-                    val === 0 ? fakeReviews.length - 1 : val - 1
-                  );
-                } else {
-                  setCurrentIndex((val) =>
-                    val === 0 ? fakeReviews.length - 3 : val - 1
-                  );
-                }
+                const slidePerView = window.innerWidth <= 768 ? 1 : 3;
+                setCurrentIndex((val) =>
+                  val === 0 ? fakeReviews.length - slidePerView : val - 1
+                );
               }}
-            />
-            <ArrowForwardIcon
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <IconButton
               className="cursor-pointer"
               onClick={() => {
-                if (window.innerWidth <= 768 && containerRef.current) {
-                  setCurrentIndex((val) =>
-                    val === fakeReviews.length - 1 ? 0 : val + 1
-                  );
-                } else {
-                  setCurrentIndex((val) =>
-                    val === fakeReviews.length - 3 ? 0 : val + 1
-                  );
-                }
+                const slidePerView = window.innerWidth <= 768 ? 1 : 3;
+                setCurrentIndex((val) =>
+                  val === fakeReviews.length - slidePerView ? 0 : val + 1
+                );
               }}
-            />
+            >
+              <ArrowForwardIcon />
+            </IconButton>
           </div>
         </div>
 

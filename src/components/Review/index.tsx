@@ -9,7 +9,7 @@ interface ReviewProps {
 
 export default function Review({ stars, name, content }: ReviewProps) {
   return (
-    <div className="px-8 py-7 border border-[#0000001A] rounded-[20px] h-72 transition-all duration-300 ease-in-out overflow-y-auto">
+    <div className="px-8 py-7 border rounded-[20px] h-72 transition-all duration-300 ease-in-out overflow-y-auto">
       <Rating
         value={stars}
         precision={0.1}

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { menuItems } from "./config";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -13,12 +13,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, Fade } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setHeightHeader } from "../../redux/slices/productSlice";
 
 const Header = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [openSignUp, setOpenSignUp] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useDispatch();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,11 +32,28 @@ const Header = () => {
   };
 
   const handleNavigate = (route: string) => {
-    navigate(route)
+    navigate(route);
   };
 
+  const updateHeight = useCallback(() => {
+    if (headerRef.current) {
+      const height = headerRef.current.offsetHeight;
+      dispatch(setHeightHeader(height));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    updateHeight();
+
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, [updateHeight]);
+
   return (
-    <>
+    <div ref={headerRef}>
       <div className="bg-black text-white">
         <div
           className={`max-w-[90vw] md:max-w-[85vw] mx-auto flex justify-between items-center ${
@@ -64,7 +86,7 @@ const Header = () => {
               onClick={handleClick}
               className="!p-0 !justify-start !min-w-0"
             >
-              <MenuIcon className="text-black"/>
+              <MenuIcon className="text-black" />
             </Button>
             <Menu
               id="fade-menu"
@@ -78,7 +100,12 @@ const Header = () => {
               className="mt-6"
             >
               {menuItems.map((item, index) => (
-                <MenuItem key={index} onClick={() => handleNavigate(item.route)} >{item.name}</MenuItem>
+                <MenuItem
+                  key={index}
+                  onClick={() => handleNavigate(item.route)}
+                >
+                  {item.name}
+                </MenuItem>
               ))}
             </Menu>
           </div>
@@ -122,8 +149,9 @@ const Header = () => {
           <ShoppingCartOutlinedIcon className="cursor-pointer" />
           <AccountCircleOutlinedIcon className="cursor-pointer" />
         </div>
+        
       </div>
-    </>
+    </div>
   );
 };
 

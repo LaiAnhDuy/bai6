@@ -17,7 +17,7 @@ export default function Frame({
 }: FrameProps) {
   return (
     <div>
-      <img src={image} />
+      <img src={image} className="w-full"/>
       <p className="mt-3 font-bold text-xl">{title}</p>
       <Rating
         value={stars}

@@ -102,7 +102,10 @@ const Header = () => {
               {menuItems.map((item, index) => (
                 <MenuItem
                   key={index}
-                  onClick={() => handleNavigate(item.route)}
+                  onClick={() => {
+                    handleNavigate(item.route);
+                    handleClose();
+                  }}
                 >
                   {item.name}
                 </MenuItem>
@@ -120,7 +123,7 @@ const Header = () => {
           {/* menu in screen > 768px */}
           <div className="col-span-4 hidden md:flex md:flex-1 justify-between">
             {menuItems.map((item, index) => (
-              <button key={index}>
+              <button key={index} onClick={() => handleNavigate(item.route)}>
                 {item.name}
                 {item.name === "Shop" ? <KeyboardArrowDownIcon /> : null}
               </button>
@@ -149,7 +152,6 @@ const Header = () => {
           <ShoppingCartOutlinedIcon className="cursor-pointer" />
           <AccountCircleOutlinedIcon className="cursor-pointer" />
         </div>
-        
       </div>
     </div>
   );

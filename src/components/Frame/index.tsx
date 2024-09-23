@@ -1,6 +1,6 @@
 import { Rating } from "@mui/material";
 
-interface FrameProps {
+export interface FrameProps {
   image: string;
   title: string;
   stars: number;

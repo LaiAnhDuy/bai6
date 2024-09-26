@@ -14,17 +14,20 @@ import { RootState } from "../../redux/store";
 
 const ProductDetail = () => {
   const [value, setValue] = React.useState("2");
+  const [isShowButton, setIsShowButton] = useState(true);
+
   const count = useSelector((state: RootState) => state.product.count);
+
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  const [isShowButton, setIsShowButton] = useState(true);
 
   useEffect(() => {
     if (count >= fakeProductReview.length) {
       setIsShowButton(false);
     }
   }, [count]);
+
   return (
     <div>
       <hr className=" max-w-[90vw] md:max-w-[85vw] mx-auto bg-[#0000001A] h-[1px] " />

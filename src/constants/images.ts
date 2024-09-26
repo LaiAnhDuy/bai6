@@ -38,4 +38,8 @@ export const IMAGE_PATH = {
   PRODUCT3: "/images/product-detail/product3.svg",
   PRODUCT4: "/images/product-detail/product4.svg",
   ICON: "/images/product-detail/icon.svg",
+  RECYCLE_ICON: "/images/product-detail/recycle-icon.svg",
+  FACEBOOK: "/images/register/facebook.png",
+  GOOGLE: "/images/register/google.webp",
+  APPLE: "/images/register/apple.png",
 };

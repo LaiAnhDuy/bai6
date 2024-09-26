@@ -8,27 +8,36 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Button, Fade } from "@mui/material";
+import { Fade } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setHeightHeader } from "../../redux/slices/productSlice";
+import AccountIcon from "./AccountIcon";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Header = () => {
   const navigate = useNavigate();
   const [openSignUp, setOpenSignUp] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorElMenu, setAnchorElMenu] = React.useState<null | HTMLElement>(
+    null
+  );
+  const openMenu = Boolean(anchorElMenu);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   const headerRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElMenu(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleCloseMenu = () => {
+    setAnchorElMenu(null);
   };
 
   const handleNavigate = (route: string) => {
@@ -41,6 +50,14 @@ const Header = () => {
       dispatch(setHeightHeader(height));
     }
   }, [dispatch]);
+
+  const handleGoToCard = () => {
+    if (isAuthenticated) {
+      navigate("/cart");
+    } else {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     updateHeight();
@@ -57,14 +74,14 @@ const Header = () => {
       <div className="bg-black text-white">
         <div
           className={`max-w-[90vw] md:max-w-[85vw] mx-auto flex justify-between items-center ${
-            openSignUp ? "hidden" : ""
+            openSignUp || isAuthenticated ? "hidden" : ""
           } `}
         >
-          <div className="flex justify-center text-[10px] py-2 flex-1 gap-x-2 ">
+          <div className="flex justify-center text-[10px] py-2 flex-1 gap-x-2">
             <p className="font-[400]">
               Sign up and get 20% off to your first order.
             </p>
-            <Link to="/sign-up" className="underline font-[500]">
+            <Link to="/register" className="underline font-[500]">
               Sign Up Now
             </Link>
           </div>
@@ -78,24 +95,13 @@ const Header = () => {
         <div className="flex md:col-span-6 md:gap-x-10 items-center gap-x-3">
           {/* menu in screen mobile */}
           <div className="md:hidden">
-            <Button
-              id="fade-button"
-              aria-controls={open ? "fade-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-              className="!p-0 !justify-start !min-w-0"
-            >
+            <div onClick={handleOpenMenu}>
               <MenuIcon className="text-black" />
-            </Button>
+            </div>
             <Menu
-              id="fade-menu"
-              MenuListProps={{
-                "aria-labelledby": "fade-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              anchorEl={anchorElMenu}
+              open={openMenu}
+              onClose={handleCloseMenu}
               TransitionComponent={Fade}
               className="mt-6"
             >
@@ -104,7 +110,7 @@ const Header = () => {
                   key={index}
                   onClick={() => {
                     handleNavigate(item.route);
-                    handleClose();
+                    handleCloseMenu();
                   }}
                 >
                   {item.name}
@@ -147,10 +153,12 @@ const Header = () => {
           </Paper>
         </div>
 
-        <div className="col-span-1 flex justify-end gap-x-2">
+        <div className="col-span-1 flex justify-end gap-x-2 items-end">
           <SearchIcon className="md:!hidden cursor-pointer" />
-          <ShoppingCartOutlinedIcon className="cursor-pointer" />
-          <AccountCircleOutlinedIcon className="cursor-pointer" />
+          <button onClick={() => handleGoToCard()}>
+            <ShoppingCartOutlinedIcon className="cursor-pointer" />
+          </button>
+          <AccountIcon />
         </div>
       </div>
     </div>

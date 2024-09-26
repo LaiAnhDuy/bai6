@@ -1,6 +1,11 @@
 import { Rating } from "@mui/material";
 import { useState } from "react";
 import { IMAGE_PATH } from "../../constants/images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/slices/cartSlices";
 
 interface DetailProps {
   images: Array<string>;
@@ -27,9 +32,35 @@ export default function Detail({
   const [pickColor, setPickColor] = useState<string>(colors[0]);
   const [pickSize, setPickSize] = useState<string>(size[0]);
   const [count, setCount] = useState(1);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/login", { state: { from: location.pathname } });
+    } else if (user) {
+      dispatch(
+        addProduct({
+          userEmail: user?.email,
+          product: {
+            image: images[0],
+            title: title,
+            color: pickColor,
+            size: pickSize,
+            price: originalPrice,
+            quantity: count
+          },
+        })
+      );
+      navigate("/cart");
+    }
+  };
   return (
-    <div  className="flex flex-col md:grid md:grid-cols-8 mt-10 md:gap-x-5">
-      
+    <div className="flex flex-col md:grid md:grid-cols-8 mt-10 md:gap-x-5">
       <div className="order-2 md:order-1 flex md:flex-col gap-5 mt-5 md:mt-0 col-span-1 max-h-[80vh] overflow-auto">
         {images.map((image, index) => (
           <div key={index} className="shrink-0">
@@ -119,7 +150,10 @@ export default function Detail({
               +
             </button>
           </div>
-          <button className="py-4 text-white bg-black flex-1 rounded-[62px]">
+          <button
+            className="py-4 text-white bg-black flex-1 rounded-[62px]"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </button>
         </div>

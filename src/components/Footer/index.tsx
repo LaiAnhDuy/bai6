@@ -5,16 +5,14 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import * as Yup from "yup";
 import { useEffect, useRef, useState } from "react";
+import { validationSchema } from "../../configs/validate";
 
 const Footer = () => {
   const [paddingTop, setPaddingTop] = useState(0);
   const itemFooterRef = useRef<HTMLDivElement | null>(null);
 
-  const validationSchema = Yup.object({
-    email: Yup.string().email("Địa chỉ email không hợp lệ"),
-  });
+  
 
   const updatePaddingTop = () => {
     if (itemFooterRef.current) {

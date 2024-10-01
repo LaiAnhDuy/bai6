@@ -7,7 +7,7 @@ export interface ProductProps {
   color: string;
   price: number;
   quantity: number;
-  id?: number;
+  id: number;
 }
 
 interface CartState {

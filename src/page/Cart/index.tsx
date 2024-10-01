@@ -13,7 +13,7 @@ const Cart = () => {
     const curentEmail = email || "";
     return state.cart[curentEmail];
   });
-
+  
   const subtotal = useMemo(() => {
     return cart.reduce((total: number, product: ProductProps) => {
       return total + product.price * product.quantity;
@@ -63,7 +63,7 @@ const Cart = () => {
 
               <div className="flex justify-between">
                 <p>Total</p>
-                <p className="font-bold">${subtotal*0.8 + 15}</p>
+                <p className="font-bold">${cart.length > 0 ? (subtotal*0.8 + 15) : 0}</p>
               </div>
             </div>
 

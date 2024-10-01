@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Frame from "../../components/Frame";
-import { IMAGE_PATH } from "../../constants/images";
 import { fakeProducts, fakeReviews, styles } from "./config";
 import Review from "../../components/Review";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -8,6 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 import ROUTE from "../../constants/route";
 import { IconButton } from "@mui/material";
+import { IMAGE_PATH } from "../../constants/images";
 
 const HomePage = () => {
   const navigate = useNavigate();

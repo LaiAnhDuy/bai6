@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IconButton, Paper } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import InputBase from "@mui/material/InputBase";
@@ -21,6 +21,7 @@ const users = [
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +35,8 @@ const Login = () => {
     );
     if (user) {
       dispatch(login({ email: user.email }));
-      navigate("/");
+      const from = location.state?.from || "/";
+      navigate(from);
     } else {
       setLoginError("Email or password is incorrect");
     }

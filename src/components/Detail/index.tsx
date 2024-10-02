@@ -52,7 +52,8 @@ export default function Detail({
             color: pickColor,
             size: pickSize,
             price: originalPrice,
-            quantity: count
+            quantity: count,
+            id: 0
           },
         })
       );
